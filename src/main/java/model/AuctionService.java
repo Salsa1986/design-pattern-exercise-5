@@ -1,7 +1,15 @@
 package model;
 
-public class AuctionService {
+
+
+public class AuctionService extends BidAuctionSubjectService{
     private static AuctionService instance;
+
+    private BidAuctionSubjectService bidAuctionSubjectService;
+
+    private AuctionService(BidAuctionSubjectService bidAuctionSubjectService) {
+        this.bidAuctionSubjectService = bidAuctionSubjectService;
+    }
 
     private AuctionService() {
     }
@@ -10,16 +18,19 @@ public class AuctionService {
         if (auction.getHighestBid()<amount) {
             auction.setHighestBid(amount);
             auction.setBuyer(buyer);
+            this.notifyCustomers(auction);
             return true;
         }
         return false;
     }
 
+
+
     public static AuctionService getInstance(){
         if (instance == null){
             synchronized (AuctionService.class){
                 if (instance == null){
-                    instance = new AuctionService();
+                    instance = new AuctionService(new BidAuctionSubjectService());
                 }
             }
         }

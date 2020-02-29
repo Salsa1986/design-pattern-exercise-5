@@ -3,7 +3,6 @@ package model;
 import java.time.LocalDateTime;
 
 public class Auction {
-    private static int counter = 1;
     private int id;
 
     private String item;
@@ -15,18 +14,23 @@ public class Auction {
     private double highestBid;
     private Customer buyer;
 
-    public Auction() {
-        this.id = counter++;
-    }
+
 
     public Auction(int id, String item, String description, LocalDateTime dueDate, Customer seller, double highestBid, Customer buyer) {
-        this.id = counter++;
+        this.id = id;
         this.item = item;
         this.description = description;
         this.dueDate = dueDate;
         this.seller = seller;
         this.highestBid = highestBid;
         this.buyer = buyer;
+    }
+
+    public Auction() {
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -97,7 +101,10 @@ public class Auction {
         private double highestBid;
         private Customer buyer;
 
-
+        public AuctionBuilder withId(int id){
+            this.id = id;
+            return this;
+        }
         public AuctionBuilder withItem(String item){
             this.item = item;
             return this;
@@ -130,6 +137,7 @@ public class Auction {
 
         public Auction build(){
             Auction auction = new Auction();
+            auction.id = id;
             auction.buyer = buyer;
             auction.description = description;
             auction.dueDate = dueDate;
